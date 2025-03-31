@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地点信息 - 邀请函</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        .location-page {
+            text-align: center;
+        }
+        
+        .location-info {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 192, 203, 0.3);
+        }
+        
+        .location-info::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 194, 235, 0.2), rgba(166, 193, 238, 0.1));
+            top: -50px;
+            right: -50px;
+            z-index: 0;
+        }
+        
+        .location-info::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 154, 158, 0.2), rgba(238, 162, 162, 0.1));
+            bottom: -50px;
+            left: -50px;
+            z-index: 0;
+        }
+        
+        .location-name {
+            font-size: 2rem;
+            color: #522546;
+            margin-bottom: 1.2rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .location-name::after {
+            content: '🏡';
+            position: absolute;
+            right: -2.5rem;
+            top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .location-address {
+            color: #88304e;
+            margin-bottom: 2.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .location-address::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e23e57, transparent);
+        }
+        
+        .location-description {
+            color: #6c757d;
+            margin: 2.5rem 0;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+        }
+        
+        .map-container {
+            height: 400px;
+            background-color: rgba(248, 249, 250, 0.6);
+            border-radius: 15px;
+            margin: 2.5rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            z-index: 1;
+        }
+        
+        .map-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(120deg, rgba(161, 196, 253, 0.8), rgba(194, 233, 251, 0.8));
+            color: #522546;
+        }
+        
+        .map-icon {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .map-placeholder p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .map-placeholder .address-hint {
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            color: #e23e57;
+            font-weight: bold;
+        }
+        
+        .transportation {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 3.5rem 0;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .transport-option {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            width: 220px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transport-option::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, rgba(251, 194, 235, 0.1), rgba(166, 193, 238, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .transport-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transport-option:hover::before {
+            opacity: 1;
+        }
+        
+        .transport-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #e23e57;
+            transition: transform 0.4s ease;
+        }
+        
+        .transport-option:hover .transport-icon {
+            transform: scale(1.2);
+        }
+        
+        .transport-option h3 {
+            color: #522546;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .transport-option p {
+            color: #6c757d;
+            line-height: 1.5;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+        }
+        
+        .location-message {
+            text-align: center;
+            margin: 3rem 0 1rem;
+            position: relative;
+            padding: 1.5rem;
+        }
+        
+        .location-message p {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #88304e;
+            font-style: italic;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .location-message p::before, .location-message p::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e23e57, transparent);
+            top: 50%;
+        }
+        
+        .location-message p::before {
+            left: -40px;
+        }
+        
+        .location-message p::after {
+            right: -40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="heartContainer"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title animate__animated animate__fadeInDown">地点信息</h1>
+            <div class="subtitle animate__animated animate__fadeIn animate__delay-1s">我在这里等你</div>
+        </header>
+        
+        <main class="location-page">
+            <div class="location-info animate__animated animate__fadeIn animate__delay-1s">
+                <div class="location-name">地中海花园</div>
+                <div class="location-address">某城市某区地中海花园小区</div>
+                
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <div class="map-icon">📍</div>
+                        <p>地中海花园小区位置</p>
+                        <p>我期待在这里与你相见</p>
+                        <div class="address-hint">详细地址将通过邮件单独发送</div>
+                    </div>
+                </div>
+                
+                <div class="location-description">
+                    地中海花园是一座环境优美的小区，周围绿树成荫，环境宜人。
+                    小区内设计独特，充满了地中海风情，是一个适合休闲聚餐的好地方。
+                    我已经为我们准备了一个温馨的角落，期待你的到来。
+                </div>
+            </div>
+            
+            <div class="location-message animate__animated animate__fadeIn animate__delay-2s">
+                <p>有你在的地方，才是最美的风景</p>
+            </div>
+            
+            <div class="transportation">
+                <div class="transport-option animate__animated animate__fadeInUp animate__delay-3s">
+                    <div class="transport-icon">🚗</div>
+                    <h3>自驾</h3>
+                    <p>小区内有访客停车位，请提前告知车牌号，我会为你安排妥当</p>
+                </div>
+                
+                <div class="transport-option animate__animated animate__fadeInUp animate__delay-3s">
+                    <div class="transport-icon">🚇</div>
+                    <h3>地铁</h3>
+                    <p>乘坐地铁至最近站点，步行约10分钟可达。需要时我可以去接你</p>
+                </div>
+                
+                <div class="transport-option animate__animated animate__fadeInUp animate__delay-3s">
+                    <div class="transport-icon">🚌</div>
+                    <h3>公交</h3>
+                    <p>乘坐多路公交可达小区附近，步行5分钟可达。提前告知我你的到达时间</p>
+                </div>
+            </div>
+            
+            <a href="index.html" class="btn back-link animate__animated animate__fadeIn animate__delay-4s">返回邀请函</a>
+        </main>
+        
+        <footer>
+            <p>需要详细路线指引，请随时<a href="mailto:3052159261@qq.com">联系我</a> | 用❤️制作</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

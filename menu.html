@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晚餐菜单 - 邀请函</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        .menu-page {
+            text-align: center;
+        }
+        
+        .menu-title {
+            color: #e23e57;
+            margin-bottom: 2rem;
+        }
+        
+        .menu-date {
+            color: #88304e;
+            font-style: italic;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .menu-date::before, .menu-date::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e23e57, transparent);
+            top: 50%;
+        }
+        
+        .menu-date::before {
+            left: -40px;
+        }
+        
+        .menu-date::after {
+            right: -40px;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .menu-item {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 192, 203, 0.3);
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, rgba(251, 194, 235, 0.1), rgba(166, 193, 238, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .menu-item:hover::before {
+            opacity: 1;
+        }
+        
+        .menu-item h3 {
+            color: #522546;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .menu-item h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #e23e57, transparent);
+            transform: scaleX(0.7);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover h3::after {
+            transform: scaleX(1);
+        }
+        
+        .menu-item p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .menu-item .emoji {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .menu-item:hover .emoji {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+        }
+        
+        .menu-love-message {
+            margin-top: 3rem;
+            color: #88304e;
+            font-style: italic;
+            font-size: 1.3rem;
+            position: relative;
+            padding: 1rem 0;
+        }
+        
+        .menu-love-message::before {
+            content: '❤️';
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="heartContainer"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title animate__animated animate__fadeInDown">精选菜单</h1>
+            <div class="subtitle animate__animated animate__fadeIn animate__delay-1s">为你精心准备的美食</div>
+        </header>
+        
+        <main class="menu-page">
+            <div class="menu-date animate__animated animate__fadeIn animate__delay-1s">4月5日晚餐</div>
+            
+            <div class="menu-items">
+                <div class="menu-item animate__animated animate__fadeInUp animate__delay-1s">
+                    <span class="emoji">🥦</span>
+                    <h3>大碗花菜</h3>
+                    <p>新鲜的花菜搭配特制酱料，口感鲜嫩，营养丰富。精心烹饪，只为你的口味。</p>
+                </div>
+                
+                <div class="menu-item animate__animated animate__fadeInUp animate__delay-2s">
+                    <span class="emoji">🍲</span>
+                    <h3>年糕鸡爪</h3>
+                    <p>软糯的年糕与鲜香的鸡爪完美结合，口感丰富层次分明。每一口都是惊喜。</p>
+                </div>
+                
+                <div class="menu-item animate__animated animate__fadeInUp animate__delay-3s">
+                    <span class="emoji">🍄</span>
+                    <h3>小鸡炖蘑菇</h3>
+                    <p>选用优质鸡肉和新鲜蘑菇，炖煮至汤汁浓郁，鲜香四溢。温暖你的味蕾与心灵。</p>
+                </div>
+                
+                <div class="menu-item animate__animated animate__fadeInUp animate__delay-4s">
+                    <span class="emoji">🐟</span>
+                    <h3>红烧鱼</h3>
+                    <p>精选鲜活鱼类，配以秘制红烧酱汁，鲜嫩可口回味无穷。期待与你分享这道佳肴。</p>
+                </div>
+            </div>
+            
+            <div class="menu-love-message animate__animated animate__fadeIn animate__delay-5s">
+                每一道菜都包含我对你的爱意与期待
+            </div>
+            
+            <a href="index.html" class="btn back-link animate__animated animate__fadeIn animate__delay-5s">返回邀请函</a>
+        </main>
+        
+        <footer>
+            <p>有任何饮食要求，请随时<a href="mailto:3052159261@qq.com">联系我</a> | 用❤️制作</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
+</html> 
